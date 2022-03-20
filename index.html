@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+    <style>
+
+        *{
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0px;
+            padding: 0px;
+            height: 100vh;
+            font-family: sans-serif;
+            
+
+        }
+
+        form{
+            height: 500px;
+            width:500px;
+            background-color: rgb(36, 37, 36);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 0px 20px ;
+            
+        }
+
+        input{
+            margin-bottom: 20px;
+            height: 32px;
+            width: 100%;
+            border-radius: 20px;
+            padding: 10px 15px ;
+        }
+
+        label{
+            margin-bottom: 20px;
+            color: #eee;
+        }
+
+        input[type="button"]{
+            background-color: green;
+            outline: none;
+            border:none;
+            cursor: pointer;
+            font-size: 1rem;
+            text-align: center;
+            border-radius: 10px;
+            text-transform: uppercase;
+            color: #eee;
+            display: flex;
+            justify-content: center;
+            align-items: center;    
+            height: 50px;
+        }
+
+        .imc_title{
+            margin-bottom: 10px;
+            color: #eee;
+        }
+
+        .message{
+            margin-bottom: 10px;
+            transition: all ease .3s;
+        }
+        .imc_type{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+       <form action="">
+           <h1 class="imc_title">calcule o seu imc</h1>
+           <label for="">Digite seu nome</label>
+           <input @focus="close" type="text" v-model="nome">
+           <label for="">Digite sua altura</label>
+           <input @focus="close" type="text" v-model="altura"/>
+           <label for="">Digite sua peso</label>
+           <input  @focus="close" type="text" v-model="peso"/>
+               <div class="message" v-if="mostrar">
+                    <h3>Olá ,{{nome}} seu imc é {{imc}}</h3>
+                    <p class="imc_type">{{message}}</p>
+               </div>
+           <input @click="mostrarIdade" type="button"  value="calcular">
+       </form>
+    </div>
+
+
+
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data:{
+                nome:'',
+                altura : '',
+                peso: '',
+                mostrar: false,
+                message: '',
+                imc: 0,
+            },
+            methods:{
+                mostrarIdade(){
+
+                    
+                    if (!this.altura && !this.altura && !this.peso )  return;
+                    let altura = +this.altura.replace(',', '.');
+                    let peso  = +this.peso
+                    if ( isNaN(altura) || isNaN(peso)) {
+                        alert('Digite numero na altura ou peso');
+                       return;
+                    }
+
+                    this.mostrar = true;
+                    this.imc = (this.peso / (altura * altura) ).toFixed(1);
+                    if(+this.imc <= 16){
+                        this.nome = '';
+                        this.altura = '';
+                        this.peso = '';
+
+                        return this.message = "Magreza Grau III";
+                    }
+                     
+                    if(+this.imc > 16 || this.imc <= 16.9 ){
+                        this.nome = '';
+                        this.altura = '';
+                        this.peso = '';
+                        return this.message = "Magreza Grau II";
+                    } 
+
+
+                    if(+this.imc >= 17 || this.imc <= 18.4){
+                        this.nome = '';
+                        this.altura = '';
+                        this.peso = '';
+                        return this.message = "Magreza Grau I";
+                    } 
+                    if(+this.imc >=  18.5 || this.imc <= 24.9 ){
+                        this.nome = '';
+                        this.altura = '';
+                        this.peso = '';
+                        return this.message = "Adequado";
+                    } 
+                    if(+this.imc >= 25 ||  this.imc <= 29.9){
+                        this.nome = '';
+                        this.altura = '';
+                        this.peso = '';
+                        return this.message = "Pré-Obeso";
+                    } 
+                    if(+this.imc >= 30 ||  this.imc <= 34.9){
+                        this.nome = '';
+                        this.altura = '';
+                        this.peso = '';
+                        return this.message = "Obesidade Grau I";
+                    } 
+                    if(+this.imc >= 35 ||  this.imc <= 39.9){
+                        this.nome = '';
+                        this.altura = '';
+                        this.peso = '';
+                        return this.message = "Obesidade Grau II";
+                    } 
+                    if(+this.imc >= 40) {
+                        this.nome = '';
+                        this.altura = '';
+                        this.peso = '';
+                        return this.message = "Obesidade Grau III";
+                    }
+                },
+                close(){
+                   this.mostrar = false;
+                }
+            }
+        })
+
+    </script>
+</body>
+</html>
